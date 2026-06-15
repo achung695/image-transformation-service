@@ -41,7 +41,13 @@ export default function Home() {
       await new Promise((r) => setTimeout(r, 400)); // brief UI pause so step is visible
 
       setStatus('hosting');
-      const data: ApiResponse = await res.json();
+      const text = await res.text();
+      let data: ApiResponse;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error('Server error — request may have timed out. Please try again.');
+      }
 
       if (!data.success) {
         throw new Error(data.error);
