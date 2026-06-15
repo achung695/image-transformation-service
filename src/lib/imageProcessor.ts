@@ -1,11 +1,11 @@
 import sharp from 'sharp';
 
-export async function removeBackground(buffer: Buffer, mimeType: string): Promise<Buffer> {
-  const { FormData, Blob } = await import('node:buffer').then(() => globalThis);
-
-  const blob = new Blob([new Uint8Array(buffer)], { type: mimeType });
+export async function removeBackground(buffer: Buffer): Promise<Buffer> {
+  const jpegBuffer = await sharp(buffer).jpeg().toBuffer();
+  
+  const blob = new Blob([Buffer.from(jpegBuffer).buffer as ArrayBuffer], { type: 'image/jpeg' });
   const formData = new FormData();
-  formData.append('image_file', blob, 'image.png');
+  formData.append('image_file', blob, 'image.jpg');
   formData.append('size', 'auto');
 
   const response = await fetch('https://api.remove.bg/v1.0/removebg', {
@@ -30,8 +30,8 @@ export async function flipHorizontal(buffer: Buffer): Promise<Buffer> {
   return sharp(buffer).flop().png().toBuffer();
 }
 
-export async function processImage(inputBuffer: Buffer, mimeType: string): Promise<Buffer> {
-  const noBgBuffer = await removeBackground(inputBuffer, mimeType);
+export async function processImage(inputBuffer: Buffer): Promise<Buffer> {
+  const noBgBuffer = await removeBackground(inputBuffer);
   const flippedBuffer = await flipHorizontal(noBgBuffer);
   return flippedBuffer;
 }
