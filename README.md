@@ -1,6 +1,6 @@
 # Image Transformation Service
 
-A full-stack Next.js app that removes the background from an uploaded image, flips it horizontally, hosts the result on Cloudinary, and provides a shareable URL.
+A full-stack Next.js app that removes the background from an uploaded image, flips it horizontally, hosts the result on Cloudinary, and provides a shareable URL. 
 
 ## Tech Stack
 
