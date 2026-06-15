@@ -3,7 +3,7 @@ import sharp from 'sharp';
 export async function removeBackground(buffer: Buffer, mimeType: string): Promise<Buffer> {
   const { FormData, Blob } = await import('node:buffer').then(() => globalThis);
 
-  const blob = new Blob([buffer], { type: mimeType });
+  const blob = new Blob([new Uint8Array(buffer)], { type: mimeType });
   const formData = new FormData();
   formData.append('image_file', blob, 'image.png');
   formData.append('size', 'auto');
