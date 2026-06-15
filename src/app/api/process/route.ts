@@ -36,7 +36,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProcessRe
     const inputBuffer = Buffer.from(new Uint8Array(arrayBuffer));
 
     // Step 1 + 2: Remove background & flip
-    const processedBuffer = await processImage(inputBuffer, file.type);
+    const processedBuffer = await processImage(inputBuffer);
 
     // Step 3: Upload to Cloudinary
     const { url, publicId } = await uploadToCloudinary(processedBuffer);
